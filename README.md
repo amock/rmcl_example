@@ -4,15 +4,14 @@ Examples to test the [rmcl](https://github.com/uos/rmcl) ROS package.
 
 ## Worlds, Maps and Simulation
 
-In the `maps` folder are several triangle meshes uses for the robot as map.
-
+In the `maps` folder there are several triangle meshes that can be used as a map for the robot.
 The robot and each map can be loaded into one simulation by calling
 
 ```console
 $ roslaunch rmcl_example start_robot.launch
 ```
 
-The map can be changed by either changing the launch file's defaults params or via command line.
+The map can be changed by either changing the launch file's default arguments or via command line.
 
 
 After that, try to visualize the triangle mesh map via RViz.
