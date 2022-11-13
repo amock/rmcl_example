@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://ros.org/wiki/xacro"
+  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+  xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+  name="robot">
+
+<xacro:macro name="box_inertial" params="x y z mass">
+    <inertial>
+    <mass value="${mass}" />
+    <origin xyz="0 0 0" />
+    <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+        iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
+        izz="${0.0833333 * mass * (x*x + y*y)}" />
+    </inertial>
+</xacro:macro>
+
+<xacro:macro name="cylinder_inertial_with_origin" params="radius length mass *origin">
+<inertial>
+    <mass value="${mass}" />
+    <xacro:insert_block name="origin" />
+    <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+    iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+    izz="${0.5 * mass * radius * radius}" />
+</inertial>
+</xacro:macro>
+
+<xacro:property name="M_PI" value="3.14159265359"/>
+
+<xacro:property name="imu_stdev" value="0.00017" />
+
+<xacro:property name="body_height" value="0.15"/>
+<xacro:property name="body_length" value="0.38"/>
+<xacro:property name="body_width" value="0.32"/>
+
+<xacro:property name="axis_front" value="0.14"/>
+<xacro:property name="axis_back" value="-0.14"/>
+
+<xacro:property name="wheel_thickness" value="0.07"/>
+<xacro:property name="wheel_body_offset" value="${wheel_thickness/2 + 0.015}"/>
+<xacro:property name="wheel_radius" value="0.135"/>
+<xacro:property name="axis_height" value="-0.03"/>
+<xacro:property name="axis_right" value="${-body_width/2 - wheel_body_offset}"/>
+<xacro:property name="axis_left" value="${body_width/2 + wheel_body_offset}"/>
+<xacro:property name="axis_length" value="${body_width + 2 * wheel_body_offset}" />
+<xacro:property name="turning_adaptation" value="2.95" />
+
+<xacro:property name="body_mass" value="25.0"/>
+<xacro:property name="wheel_mass" value="5.0"/>
+
+<xacro:property name="imu_width" value="0.036"/>
+<xacro:property name="imu_length" value="0.038"/>
+<xacro:property name="imu_height" value="0.012"/>
+
+<xacro:property name="imu_offset_x" value="0"/>
+<xacro:property name="imu_offset_y" value="0"/>
+<xacro:property name="imu_offset_z" value="${- body_height/2 + 0.005 + 0.007}"/>
+
+<xacro:property name="em_body_length" value="0.11"/>
+<xacro:property name="em_body_width" value="0.04"/>
+<xacro:property name="em_body_height" value="0.03"/>
+
+<xacro:property name="em_button_radius" value="0.0125"/>
+<xacro:property name="em_button_depth" value="0.02" />
+
+<link name="base_footprint" />
+
+<link name="base_link">
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <box size="${body_length} ${body_width} ${body_height}"/>
+        </geometry>
+        <material name="silver" >
+            <color rgba="0.5 0.5 0.5 1" />
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <box size="${body_length} ${body_width} ${body_height}"/>
+        </geometry>
+    </collision>
+    <xacro:box_inertial
+        x="${body_length}"
+        y="${body_width}"
+        z="${body_height}"
+        mass="${body_mass}"/>
+</link>
+
+<joint name="base_footprint_to_base_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_radius - axis_height}" rpy="0 0 0" />
+    <parent link="base_footprint" />
+    <child link="base_link" />
+</joint>
+
+<!-- WHEELS -->
+<xacro:include filename="$(find rmcl_example)/urdf/wheel.urdf.xacro" />
+
+<xacro:wheel name="left_front_wheel" parent="base_link">
+    <origin xyz="${axis_front} ${axis_left} ${axis_height}" rpy="0 0 0"/>
+</xacro:wheel>
+
+<xacro:wheel name="left_rear_wheel" parent="base_link">
+    <origin xyz="${axis_back} ${axis_left} ${axis_height}" rpy="0 0 0" />
+</xacro:wheel>
+
+<xacro:wheel name="right_front_wheel" parent="base_link">
+    <origin xyz="${axis_front} ${axis_right} ${axis_height}" rpy="0 0 0"/>
+</xacro:wheel>
+
+<xacro:wheel name="right_rear_wheel" parent="base_link">
+    <origin xyz="${axis_back} ${axis_right} ${axis_height}" rpy="0 0 0" />
+</xacro:wheel>
+
+<!-- SICK -->
+<xacro:include filename="$(find sick_tim)/urdf/sick_tim.urdf.xacro" />
+<xacro:sick_tim551 name="sick" ros_topic="sick/scan" />
+
+<joint name="sick_to_base_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="sick_mount_link" />
+    <origin xyz="${body_length/2 - 0.05} 0 ${body_height/2 - 0.015}"/>
+</joint>
+
+<!-- Velodyne -->
+<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+<xacro:VLP-16 parent="base_link" name="velodyne" topic="velodyne/points" organize_cloud="true" hz="15" samples="440" gpu="false">
+    <origin xyz="0 0 0.4" rpy="0.0 0.0 0.0" />
+</xacro:VLP-16>
+
+<!-- IMU -->
+<link name="imu">
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <box size="${imu_length} ${imu_width} ${imu_height}"/>
+        </geometry>
+        <material name="white" >
+            <color rgba="0.8 0.8 0.8 1" />
+        </material>
+    </visual>
+</link>
+
+<joint name="imu_to_base_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu" />
+    <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="${M_PI} 0 ${M_PI/2.0}" />
+</joint>
+
+<!-- inertial measurement unit for gazebo -->
+<gazebo>
+    <plugin name="imu_controller" filename="libgazebo_ros_imu.so">
+    <alwaysOn>true</alwaysOn>
+    <updateRate>100.0</updateRate>
+    <bodyName>imu</bodyName>
+    <topicName>imu/data</topicName>
+    <serviceName>/default_imu</serviceName>
+    <gaussianNoise>${imu_stdev*imu_stdev}</gaussianNoise>
+    <xyzOffsets>0 0 0</xyzOffsets> 
+    <rpyOffsets>0 0 0</rpyOffsets>
+    <interface:position name="imu_position"/>
+    </plugin>
+</gazebo>
+
+
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+</gazebo>
+
+<!-- publish ground truth for pose of base_footprint -->
+<gazebo>
+    <plugin name="base_footprint_controller" filename="libgazebo_ros_p3d.so">
+    <alwaysOn>true</alwaysOn>
+    <updateRate>30.0</updateRate>
+    <bodyName>base_footprint</bodyName>
+    <topicName>base_footprint_pose_ground_truth</topicName>
+    <gaussianNoise>0.0</gaussianNoise>
+    <frameName>map</frameName>
+    <interface:position name="base_footprint_p3d_position_iface" />
+    </plugin>
+</gazebo>
+
+</robot>
