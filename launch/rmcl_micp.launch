@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="$(find rmcl_example)/maps/cube.dae" />
-<arg name="config" default="$(find rmcl_example)/config/micp_cpu.yaml"/>
+<arg name="map" default="$(find rmcl_example)/maps/tray.dae" />
+<arg name="config" default="$(find rmcl_example)/config/micp_gpu.yaml"/>
 
 <node pkg="rmcl" type="micp_localization" name="micp_localization" output="screen">
     <param name="map_file" type="string" value="$(arg map)" />
