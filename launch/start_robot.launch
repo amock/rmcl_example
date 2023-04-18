@@ -2,7 +2,8 @@
 <launch>
     
     <!-- <arg name="world" default="$(find gazebo_ros)/worlds/empty.world"/> -->
-    <arg name="world" default="$(find rmcl_example)/worlds/tray.world" />
+    <!-- <arg name="world" default="$(find rmcl_example)/worlds/tray.world" /> -->
+    <arg name="world" default="$(find rmcl_example)/worlds/cube.world" />
 
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
@@ -25,7 +26,7 @@
 
     <arg name="debug" default="false"/>
     <arg name="physics" default="ode"/>
-    <arg name="verbose" default="false"/>
+    <arg name="verbose" default="true"/>
     <arg name="respawn_gazebo" default="false"/>
     <arg name="use_clock_frequency" default="false"/>
     <arg name="pub_clock_frequency" default="100"/>

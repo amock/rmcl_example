@@ -42,7 +42,7 @@
         <collision name="map_collision">
           <geometry>
             <mesh>
-              <uri>file://floor.dae</uri>
+              <uri>../maps/floor.dae</uri>
               <scale>1.0 1.0 1.0</scale>
             </mesh>
           </geometry>
@@ -51,7 +51,7 @@
           <cast_shadows>false</cast_shadows>
           <geometry>
             <mesh>
-              <uri>file://floor.dae</uri>
+              <uri>../maps/floor.dae</uri>
               <scale>1.0 1.0 1.0</scale>
             </mesh>
           </geometry>

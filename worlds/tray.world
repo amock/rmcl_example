@@ -56,7 +56,7 @@
         <collision name="map_collision">
           <geometry>
             <mesh>
-              <uri>file://tray.dae</uri>
+              <uri>../maps/tray.dae</uri>
               <scale>1.0 1.0 1.0</scale>
             </mesh>
           </geometry>
@@ -65,7 +65,7 @@
           <cast_shadows>false</cast_shadows>
           <geometry>
             <mesh>
-              <uri>file://tray.dae</uri>
+              <uri>../maps/tray.dae</uri>
               <scale>1.0 1.0 1.0</scale>
             </mesh>
           </geometry>
