@@ -29,13 +29,6 @@ Alternatively maps of existing simulations as in [uos_tools](https://github.com/
 
 ## MICP Localization
 
-Publication:
-- Title: "MICP-L: Fast parallel simulative Range Sensor to Mesh Registration for Robot Localization"
-- State: Submitted to ICRA 2023
-- Preprint: https://arxiv.org/abs/2210.13904
-
-
-
 Change the default arguments in `launch/rmcl_micp.launch` to your needs:
 
 ```xml
@@ -102,7 +95,7 @@ After that you can set a pose in RViz via `2D Pose Estimate` and see the robot l
 
 ![MICP](dat/vid/rmcl_micp_1280.gif)
 
-If visualizations are enabled in the micp config file, the Simulative Projective Correspondences (SPC) can be visualized per sensor `X` as marker on the topic `micp_localizations/sensors/X/correspondences`.
+If visualizations are enabled in the micp config file, the ray casting correspondences (RCC) can be visualized per sensor `X` as marker on the topic `micp_localizations/sensors/X/correspondences`.
 
-![Simulative Projective Correspondences (SPC)](dat/img/spc.png "Simulative Projective Correspondences (SPC)")
+![Ray casting correspondences (RCC)](dat/img/spc.png "Ray casting correspondences (RCC)")
 
