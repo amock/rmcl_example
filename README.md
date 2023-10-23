@@ -16,7 +16,11 @@ The map can be changed by either changing the launch file's default arguments or
 
 After that, try to visualize the triangle mesh map via RViz.
 [rmcl](https://github.com/uos/rmcl) itself does not provide any mesh visualization tools.
-I myself use a RViz plugin of the [mesh_tools](https://github.com/uos/mesh_tools). The results should look as follows:
+I myself use the RViz plugin of the mesh_tools with this fork: https://github.com/aock/mesh_tools
+
+- TODO: Right now this visualization works only on devices with OpenCL capable GPUs. With some effort, OpenCL could get an optional dependency in the mesh_tools. I will put this to my queue of future fixes.
+
+The results should look as follows:
 
 |  Gazebo  |  RViz  |
 |:--------:|:------:|

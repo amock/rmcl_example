@@ -10,4 +10,12 @@
     <remap from="pose_wc" to="/initialpose" />
 </node>
 
+
+<!-- TODO: autostart RViz. Could not test it. It seems mesh_tools have a hard requirement to OpenCL. So only devices with GPUs can run it? Check this first -->
+<!-- <node pkg="rviz" type="rviz" name="rviz">
+    <rosparam param="rviz_map_plugin" subst_value="True">
+        Map3D: $(arg map)
+    </rosparam>
+</node> -->
+
 </launch>
