@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="$(find rmcl_example)/maps/tray.dae" />
-<arg name="config" default="$(find rmcl_example)/config/micp_gpu.yaml"/>
+<arg name="map" default="$(find rmcl_example)/maps/cube.dae" />
+<arg name="config" default="$(find rmcl_example)/config/micp_cpu.yaml"/>
+<arg name="gui" default="true"/>
 
 <node pkg="rmcl" type="micp_localization" name="micp_localization" output="screen">
     <param name="map_file" type="string" value="$(arg map)" />
@@ -10,12 +11,12 @@
     <remap from="pose_wc" to="/initialpose" />
 </node>
 
-
-<!-- TODO: autostart RViz. Could not test it. It seems mesh_tools have a hard requirement to OpenCL. So only devices with GPUs can run it? Check this first -->
-<!-- <node pkg="rviz" type="rviz" name="rviz">
-    <rosparam param="rviz_map_plugin" subst_value="True">
-        Map3D: $(arg map)
-    </rosparam>
-</node> -->
+<group if="$(arg gui)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rmcl_example)/rviz/rmcl_micp.rviz">
+        <rosparam param="rviz_map_plugin" subst_value="True">
+            Map3D: $(arg map)
+        </rosparam>
+    </node>
+</group>
 
 </launch>
