@@ -2,16 +2,18 @@ from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler,IncludeLaunchDescription
 from launch.event_handlers import OnProcessExit, OnExecutionComplete
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution, TextSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from scripts import GazeboRosPaths
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
-ARGUMENTS = [
-    DeclareLaunchArgument('map', default_value='',
-                          description='The map name [tray, cube, ...]. defaults to tray.'),
-]
+import sys
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path)
+from text_formatting import TextFormatting
+
 
 def generate_launch_description():
     map_name = "tray.world"
@@ -19,8 +21,15 @@ def generate_launch_description():
     config_dir = os.path.join(get_package_share_directory('rmcl_example'), 'config')
 
     # Launch args
+    map_arg = DeclareLaunchArgument('map', default_value=TextSubstitution(text="tray"),
+                          description='The map name [tray, cube, ...]. defaults to tray.')
+
     map_name = LaunchConfiguration('map')
     prefix = LaunchConfiguration('prefix')
+
+    map_world = TextFormatting('{}.world', map_name)
+    
+    # map_name = "tray"
 
     # Needed for gazebo to find models
     model_path, plugin_path, media_path = GazeboRosPaths.get_paths()
@@ -70,7 +79,7 @@ def generate_launch_description():
                 os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
             ),
             launch_arguments={
-                'world': os.path.join(get_package_share_directory('rmcl_example'), 'worlds', map_name + ".world"),
+                'world': PathJoinSubstitution([get_package_share_directory('rmcl_example'), 'worlds', map_world]),
                 'verbose': 'true',
             }.items()
         )
@@ -107,7 +116,7 @@ def generate_launch_description():
                 os.path.join(config_dir, 'ekf.yaml')],
            )
 
-    ld = LaunchDescription(ARGUMENTS)
+    ld = LaunchDescription([map_arg])
     ld.add_action(gzserver)
     ld.add_action(spawn_robot)
     ld.add_action(robot_state_publisher)

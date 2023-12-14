@@ -125,10 +125,78 @@
 </joint>
 
 <!-- Velodyne -->
-<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-<xacro:VLP-16 parent="base_link" name="velodyne" topic="points" organize_cloud="true" hz="15" samples="440" gpu="false">
+<link name="velodyne">
+    <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 0.03585"/>
+        <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+            iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+            izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+    </inertial>
+    <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+            <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+            <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+    </collision>
+</link>
+
+<joint name="velodyne_to_base_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="velodyne" />
     <origin xyz="0 0 0.4" rpy="0.0 0.0 0.0" />
-</xacro:VLP-16>
+</joint>
+
+<gazebo reference="velodyne">
+<sensor type="ray" name="velodyne-vlp16">
+    <pose>0 0 0 0 0 0</pose>
+    <visualize>false</visualize>
+    <update_rate>20</update_rate>
+    <ray>
+    <scan>
+        <horizontal>
+        <samples>440</samples>
+        <resolution>1</resolution>
+        <min_angle>-${M_PI}</min_angle>
+        <max_angle>${M_PI}</max_angle>
+        </horizontal>
+        <vertical>
+        <samples>16</samples>
+        <resolution>1</resolution>
+        <min_angle>-${M_PI*15.0/180.0}</min_angle>
+        <max_angle> ${M_PI*15.0/180.0}</max_angle>
+        </vertical>
+    </scan>
+    <range>
+        <min>0.3</min>
+        <max>130.0</max>
+        <resolution>0.001</resolution>
+    </range>
+    <noise>
+        <type>gaussian</type>
+        <mean>0.0</mean>
+        <stddev>0.0</stddev>
+    </noise>
+    </ray>
+    <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_velodyne_laser.so">
+        <ros>
+            <namespace>/velodyne</namespace>
+            <remapping>~/out:=points</remapping>
+        </ros>
+        <frame_name>velodyne</frame_name>
+        <organize_cloud>true</organize_cloud>
+        <min_range>0.9</min_range>
+        <max_range>130.0</max_range>
+        <gaussian_noise>0.008</gaussian_noise>
+    </plugin>
+</sensor>
+</gazebo>
 
 <!-- IMU -->
 <link name="imu">
