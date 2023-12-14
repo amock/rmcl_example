@@ -9,7 +9,7 @@ find_package(ament_cmake REQUIRED)
 find_package(urdf REQUIRED)
 find_package(xacro REQUIRED)
 
-install(DIRECTORY config models urdf worlds maps launch
+install(DIRECTORY config models urdf worlds maps launch rviz
     DESTINATION share/${PROJECT_NAME}
 )
 
