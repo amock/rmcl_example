@@ -35,29 +35,9 @@
       </link>
     </model>
 
-    <model name="map">
-      <static>true</static>
-      <link name="map_link">
-        <pose>0 0 0 0 0 0</pose>
-        <collision name="map_collision">
-          <geometry>
-            <mesh>
-              <uri>../maps/cylinder.dae</uri>
-              <scale>1.0 1.0 1.0</scale>
-            </mesh>
-          </geometry>
-        </collision>
-        <visual name="map_visual">
-          <cast_shadows>false</cast_shadows>
-          <geometry>
-            <mesh>
-              <uri>../maps/cylinder.dae</uri>
-              <scale>1.0 1.0 1.0</scale>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
+    <include>
+      <uri>model://rmcl_cylinder</uri>
+    </include>
 
     <light type="point" name="my_light">
       <pose>0 0 30 0 0 0</pose>

@@ -1,30 +1,18 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.8)
 project(rmcl_example)
 
-find_package(catkin REQUIRED)
-catkin_package()
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-install(DIRECTORY
-    launch/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+find_package(ament_cmake REQUIRED)
+find_package(urdf REQUIRED)
+find_package(xacro REQUIRED)
+
+install(DIRECTORY config models urdf worlds maps launch
+    DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY
-    maps/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/maps
-)
-
-install(DIRECTORY
-    worlds/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds
-)
-
-install(DIRECTORY
-    urdf/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/urdf
-)
-
-install(DIRECTORY
-    config/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
-)
+ament_export_dependencies(xacro)
+ament_export_dependencies(urdf)
+ament_package()

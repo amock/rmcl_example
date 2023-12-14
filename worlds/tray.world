@@ -1,77 +1,57 @@
 <?xml version="1.0" ?> 
 <sdf version="1.4">
-  <world name="default">
-    <scene>
-      <ambient>0.5 0.5 0.5 1</ambient>
-      <background>0.5 0.5 0.5 1</background>
-      <shadows>false</shadows>
-    </scene>
+<world name="default">
+  <scene>
+    <ambient>0.5 0.5 0.5 1</ambient>
+    <background>0.5 0.5 0.5 1</background>
+    <shadows>false</shadows>
+  </scene>
 
-    <light type="point" name="my_light">
-      <pose>0 0 30 0 0 0</pose>
-      <diffuse>.8 .8 .8 1</diffuse>
-      <specular>.1 .1 .1 1</specular>
-      <attenuation>
-        <range>200</range>
-        <linear>0.02</linear>
-        <constant>0.1</constant>
-        <quadratic>0.0</quadratic>
-      </attenuation>
-      <direction>0 0 -1</direction>
-      <cast_shadows>false</cast_shadows>
-    </light>
+  <light type="point" name="my_light">
+    <pose>0 0 30 0 0 0</pose>
+    <diffuse>.8 .8 .8 1</diffuse>
+    <specular>.1 .1 .1 1</specular>
+    <attenuation>
+      <range>200</range>
+      <linear>0.02</linear>
+      <constant>0.1</constant>
+      <quadratic>0.0</quadratic>
+    </attenuation>
+    <direction>0 0 -1</direction>
+    <cast_shadows>false</cast_shadows>
+  </light>
 
-    <!-- Ground Plane -->
-    <model name="plane1_model">
-      <static>true</static>
-      <link name="body">
-        <pose>0 0 -0.1 0 0 0</pose>
-        <collision name="geom_1">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-            </plane>
-          </geometry>
-        </collision>
+  <!-- Ground Plane -->
+  <model name="plane1_model">
+    <static>true</static>
+    <link name="body">
+      <pose>0 0 -0.1 0 0 0</pose>
+      <collision name="geom_1">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+          </plane>
+        </geometry>
+      </collision>
 
-        <visual name="visual_1">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <material>
-            <script>Gazebo/Grey</script>
-          </material>
-          <cast_shadows>false</cast_shadows>
-        </visual>
-      </link>
-    </model>
+      <visual name="visual_1">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>100 100</size>
+          </plane>
+        </geometry>
+        <material>
+          <script>Gazebo/Grey</script>
+        </material>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+    </link>
+  </model>
 
-    <model name="map">
-      <static>true</static>
-      <link name="map_link">
-        <pose>0 0 0 0 0 0</pose>
-        <collision name="map_collision">
-          <geometry>
-            <mesh>
-              <uri>../maps/tray.dae</uri>
-              <scale>1.0 1.0 1.0</scale>
-            </mesh>
-          </geometry>
-        </collision>
-        <visual name="map_visual">
-          <cast_shadows>false</cast_shadows>
-          <geometry>
-            <mesh>
-              <uri>../maps/tray.dae</uri>
-              <scale>1.0 1.0 1.0</scale>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-    </model>
+  <include>
+    <uri>model://rmcl_tray</uri>
+  </include>
 
-  </world>
+</world>
 </sdf>
