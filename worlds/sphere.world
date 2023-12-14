@@ -21,10 +21,16 @@
       <cast_shadows>false</cast_shadows>
     </light>
 
+    <gui>
+      <camera name="user_camera">
+          <pose>0.0 0.0 30.0 0.0 1.57 0.0</pose>
+      </camera>
+    </gui>
+
+    <!-- MAP -->
     <include>
       <uri>model://rmcl_sphere</uri>
     </include>
 
-    
   </world>
 </sdf>

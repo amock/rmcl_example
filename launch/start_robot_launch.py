@@ -9,15 +9,17 @@ from scripts import GazeboRosPaths
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
 ARGUMENTS = [
-    DeclareLaunchArgument('world_path', default_value='',
-                          description='The world path, by default is empty.world'),
+    DeclareLaunchArgument('map', default_value='',
+                          description='The map name [tray, cube, ...]. defaults to tray.'),
 ]
 
 def generate_launch_description():
+    map_name = "tray.world"
+
     config_dir = os.path.join(get_package_share_directory('rmcl_example'), 'config')
 
     # Launch args
-    world_path = LaunchConfiguration('world_path')
+    map_name = LaunchConfiguration('map')
     prefix = LaunchConfiguration('prefix')
 
     # Needed for gazebo to find models
@@ -54,7 +56,7 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    node_robot_state_publisher = Node(
+    robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
@@ -68,7 +70,7 @@ def generate_launch_description():
                 os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
             ),
             launch_arguments={
-                'world': os.path.join(get_package_share_directory('rmcl_example'), 'worlds', 'tray.world'),
+                'world': os.path.join(get_package_share_directory('rmcl_example'), 'worlds', map_name + ".world"),
                 'verbose': 'true',
             }.items()
         )
@@ -77,7 +79,7 @@ def generate_launch_description():
     spawn_robot = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        name='spawn_ceres',
+        name='spawn_robot',
         arguments=['-entity',
                    'robot',
                    '-topic',
@@ -85,19 +87,31 @@ def generate_launch_description():
         output='screen',
     )
 
-    # ekf = IncludeLaunchDescription(
-    #         PythonLaunchDescriptionSource(
-    #             os.path.join(get_package_share_directory('ceres_localization'), 'launch', 'ceres_localization_launch2.py')
-    #         ),
-    #         launch_arguments={
-    #             'is_sim': 'true',
-    #         }.items()
-    #     )
-    
+    imu_filter = Node(
+            package='imu_filter_madgwick',
+            executable='imu_filter_madgwick_node',
+            name='imu_filter',
+            output='screen',
+            parameters=[
+                {'use_sim_time': True},
+                os.path.join(config_dir, 'madgwick.yaml')],
+        )
+
+    ekf = Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[
+                {"use_sim_time" : True}, 
+                os.path.join(config_dir, 'ekf.yaml')],
+           )
+
     ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(node_robot_state_publisher)
     ld.add_action(gzserver)
     ld.add_action(spawn_robot)
-    # ld.add_action(ekf)
+    ld.add_action(robot_state_publisher)
+    ld.add_action(imu_filter)
+    ld.add_action(ekf)
 
     return ld

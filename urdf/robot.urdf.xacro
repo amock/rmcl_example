@@ -126,7 +126,7 @@
 
 <!-- Velodyne -->
 <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-<xacro:VLP-16 parent="base_link" name="velodyne" topic="velodyne/points" organize_cloud="true" hz="15" samples="440" gpu="false">
+<xacro:VLP-16 parent="base_link" name="velodyne" topic="points" organize_cloud="true" hz="15" samples="440" gpu="false">
     <origin xyz="0 0 0.4" rpy="0.0 0.0 0.0" />
 </xacro:VLP-16>
 
@@ -146,41 +146,107 @@
 <joint name="imu_to_base_joint" type="fixed">
     <parent link="base_link" />
     <child link="imu" />
-    <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="${M_PI} 0 ${M_PI/2.0}" />
+    <!-- <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="${M_PI} 0 ${M_PI/2.0}" /> -->
+    <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0" />
 </joint>
 
-<!-- inertial measurement unit for gazebo -->
-<gazebo>
-    <plugin name="imu_controller" filename="libgazebo_ros_imu.so">
-    <alwaysOn>true</alwaysOn>
-    <updateRate>100.0</updateRate>
-    <bodyName>imu</bodyName>
-    <topicName>imu/data</topicName>
-    <serviceName>/default_imu</serviceName>
-    <gaussianNoise>${imu_stdev*imu_stdev}</gaussianNoise>
-    <xyzOffsets>0 0 0</xyzOffsets> 
-    <rpyOffsets>0 0 0</rpyOffsets>
-    <interface:position name="imu_position"/>
+<gazebo reference="imu">
+    <sensor name="imu" type="imu">
+    <imu>
+        <angular_velocity>
+        <x>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </x>
+        <y>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </y>
+        <z>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </z>
+        </angular_velocity>
+        <linear_acceleration>
+        <x>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </x>
+        <y>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </y>
+        <z>
+            <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>${imu_stdev}</stddev>
+            </noise>
+        </z>
+        </linear_acceleration>
+    </imu>
+    <always_on>true</always_on>
+    <update_rate>100.0</update_rate>
+        <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        <ros>
+            <remapping>~/out:=/imu/data_raw</remapping>
+        </ros>
+        <frame_name>imu</frame_name>
     </plugin>
+    </sensor>
 </gazebo>
 
-
 <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-    </plugin>
-</gazebo>
+  <plugin name='skid_steer_drive' filename='libgazebo_ros_diff_drive.so'>
+    <!-- <ros>
+        <namespace>/demo</namespace>
+        <argument>cmd_vel:=cmd_demo</argument>
+        <argument>odom:=odom_demo</argument>
+    </ros> -->
+    <update_rate>100.0</update_rate>
+    <num_wheel_pairs>2</num_wheel_pairs>
+    <!-- wheels0 -->
+    <left_joint>left_front_wheel</left_joint>
+    <right_joint>right_front_wheel</right_joint>
 
-<!-- publish ground truth for pose of base_footprint -->
-<gazebo>
-    <plugin name="base_footprint_controller" filename="libgazebo_ros_p3d.so">
-    <alwaysOn>true</alwaysOn>
-    <updateRate>30.0</updateRate>
-    <bodyName>base_footprint</bodyName>
-    <topicName>base_footprint_pose_ground_truth</topicName>
-    <gaussianNoise>0.0</gaussianNoise>
-    <frameName>map</frameName>
-    <interface:position name="base_footprint_p3d_position_iface" />
-    </plugin>
+    <!-- wheels1-->
+    <left_joint>left_rear_wheel</left_joint>
+    <right_joint>right_rear_wheel</right_joint>
+
+    <!-- kinematics -->
+    <wheel_separation>${axis_length}</wheel_separation>
+    <wheel_separation>${axis_length}</wheel_separation>
+
+    <wheel_diameter>${2*wheel_radius}</wheel_diameter>
+    <wheel_diameter>${2*wheel_radius}</wheel_diameter>
+
+    <!-- limits -->
+    <max_wheel_torque>5000</max_wheel_torque>
+    <max_wheel_acceleration>3.0</max_wheel_acceleration>
+
+    <!-- Convariance -->
+    <covariance_x>0.001</covariance_x>
+    <covariance_y>0.001</covariance_y>
+    <covariance_yaw>0.001</covariance_yaw>
+    
+    <!-- output -->
+    <publish_odom>true</publish_odom>
+    <publish_odom_tf>false</publish_odom_tf>
+    <publish_wheel_tf>true</publish_wheel_tf>
+
+    <odometry_frame>odom</odometry_frame>
+    <robot_base_frame>base_footprint</robot_base_frame>
+  </plugin>
 </gazebo>
 
 </robot>
