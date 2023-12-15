@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="$(find-pkg-share rmcl_example)/maps/cube.dae" />
+<arg name="map" default="$(find-pkg-share rmcl_example)/maps/tray.dae" />
 <arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml"/>
 <arg name="gui" default="true"/>
 
-<node pkg="rmcl" type="micp_localization" name="micp_localization" output="screen">
+<!-- <node pkg="rmcl" type="micp_localization" name="micp_localization" output="screen">
     <param name="map_file" type="string" value="$(var map)" />
     <rosparam command="load" file="$(var config)" />
     <remap from="pose_wc" to="/initialpose" />
-</node>
+</node> -->
 
-<group if="$(arg gui)">
-    <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
-        <rosparam param="rviz_map_plugin" subst_value="True">
-            Map3D: $(var map)
-        </rosparam>
+<group if="$(var gui)">
+    <node pkg="rviz2" exec="rviz2" name="rviz2" 
+        args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz"
+        output="screen">
+        <param name="rviz_mesh_tools_plugins/Map3D" value="$(var map)" />
     </node>
 </group>
 
