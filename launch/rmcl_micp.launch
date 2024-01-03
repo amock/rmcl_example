@@ -9,7 +9,8 @@
     <param name="use_sim_time" value="true" />
     <param name="map_file" value="$(var map)" />
     <param from="$(var config)" />
-    <remap from="pose_wc" to="/initialpose" />
+    <!-- <remap from="pose_wc" to="/initialpose" /> -->
+    <remap from="pose" to="/goal" />
 </node>
 
 <group if="$(var gui)">

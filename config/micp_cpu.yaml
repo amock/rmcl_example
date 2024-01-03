@@ -4,7 +4,7 @@ micp_localization:
     # required
     base_frame: base_footprint
     map_frame: map
-    odom_frame: odom_combined
+    odom_frame: odom
 
     # rate of broadcasting tf transformations
     tf_rate: 50.0
@@ -48,26 +48,4 @@ micp_localization:
         micp:
           max_dist: 2.0
           adaptive_max_dist_min: 0.15
-          backend: embree
-      wheels: # pull robot to the mesh
-        ranges: [0.2, 0.2, 0.2, 0.2]
-        type: ondn
-        frame: base_footprint
-        model:
-          width: 4
-          height: 1
-          range_min: 0.0
-          range_max: 10.0
-          origs: [ 0.15,  0.18,  0.2, # front left 
-                   0.15, -0.18,  0.2, # front right
-                  -0.15,  0.18,  0.2, # rear left
-                  -0.15, -0.18,  0.2] # rear right
-          dirs:  [ 0.0,  0.0, -1.0,
-                   0.0,  0.0, -1.0,
-                   0.0,  0.0, -1.0,
-                   0.0,  0.0, -1.0]
-        micp:
-          max_dist: 1.0
-          adaptive_max_dist_min: 0.2
-          weight: 1.0
-          backend: optix  
+          backend: embree 
