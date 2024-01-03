@@ -3,13 +3,14 @@
 
 <arg name="map" default="$(find-pkg-share rmcl_example)/maps/tray.dae" />
 <arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml"/>
-<arg name="gui" default="true"/>
+<arg name="gui" default="false"/>
 
-<!-- <node pkg="rmcl" exec="micp_localization" name="micp_localization" output="screen">
+<node pkg="rmcl" exec="micp_localization" name="micp_localization" output="screen">
+    <param name="use_sim_time" value="true" />
     <param name="map_file" value="$(var map)" />
     <param from="$(var config)" />
     <remap from="pose_wc" to="/initialpose" />
-</node> -->
+</node>
 
 <group if="$(var gui)">
     <node pkg="rviz2" exec="rviz2" name="rviz2" 
