@@ -81,6 +81,7 @@ def generate_launch_description():
             launch_arguments={
                 'world': PathJoinSubstitution([get_package_share_directory('rmcl_example'), 'worlds', map_world]),
                 'verbose': 'true',
+                'params_file': os.path.join(config_dir, 'gazebo.yaml')
             }.items()
         )
 
