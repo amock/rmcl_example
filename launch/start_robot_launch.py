@@ -16,20 +16,16 @@ from text_formatting import TextFormatting
 
 
 def generate_launch_description():
-    map_name = "tray.world"
-
     config_dir = os.path.join(get_package_share_directory('rmcl_example'), 'config')
 
     # Launch args
     map_arg = DeclareLaunchArgument('map', default_value=TextSubstitution(text="tray"),
-                          description='The map name [tray, cube, ...]. defaults to tray.')
+                          description='map name. Choose between \'cube\', \'cylinder\', \'floor\', \'sphere\', \'tray\'')
 
     map_name = LaunchConfiguration('map')
     prefix = LaunchConfiguration('prefix')
 
     map_world = TextFormatting('{}.world', map_name)
-    
-    # map_name = "tray"
 
     # Needed for gazebo to find models
     model_path, plugin_path, media_path = GazeboRosPaths.get_paths()

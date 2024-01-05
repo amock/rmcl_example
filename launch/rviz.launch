@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="tray" />
+<arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray'" />
 
 <node pkg="rviz2" exec="rviz2" name="rviz2" 
     args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
