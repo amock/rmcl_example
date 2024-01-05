@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="$(find-pkg-share rmcl_example)/maps/tray.dae" />
+<arg name="map" default="tray" />
 <arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml"/>
 <arg name="gui" default="false"/>
 
 <node pkg="rmcl" exec="micp_localization" name="micp_localization" output="screen">
     <param name="use_sim_time" value="true" />
-    <param name="map_file" value="$(var map)" />
+    <param name="map_file" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
     <param from="$(var config)" />
-    <!-- <remap from="pose_wc" to="/initialpose" /> -->
-    <remap from="pose" to="/goal" />
+    <remap from="pose_wc" to="/initialpose" />
 </node>
 
 <group if="$(var gui)">
     <node pkg="rviz2" exec="rviz2" name="rviz2" 
         args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
         <param name="use_sim_time" value="true" />
-        <param name="rviz_mesh_tools_plugins.Map3D" value="$(var map)" />
+        <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
     </node>
 </group>
 

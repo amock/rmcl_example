@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="$(find-pkg-share rmcl_example)/maps/tray.dae" />
+<arg name="map" default="tray" />
 
 <node pkg="rviz2" exec="rviz2" name="rviz2" 
     args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
     <param name="use_sim_time" value="true" />
-    <param name="rviz_mesh_tools_plugins.Map3D" value="$(var map)" />
+    <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
 </node>
 
 </launch>
