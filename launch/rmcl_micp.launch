@@ -2,7 +2,7 @@
 <launch>
 
 <arg name="map" default="tray" />
-<arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml"/>
+<arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_gpu.yaml"/>
 <arg name="gui" default="false"/>
 
 <node pkg="rmcl" exec="micp_localization" name="micp_localization" output="screen">

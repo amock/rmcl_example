@@ -8,17 +8,18 @@ In the `maps` folder there are several triangle meshes that can be used as a map
 The robot and each map can be loaded into one simulation by calling
 
 ```console
-$ roslaunch rmcl_example start_robot.launch
+$ ros2 launch rmcl_example start_robot_launch.py map:=tray
 ```
 
 The map can be changed by either changing the launch file's default arguments or via command line.
 
-
 After that, try to visualize the triangle mesh map via RViz.
 [rmcl](https://github.com/uos/rmcl) itself does not provide any mesh visualization tools.
-I myself use the RViz plugin of the mesh_tools with this fork: https://github.com/aock/mesh_tools
+I myself use the RViz plugin of the mesh_tools: https://github.com/naturerobots/mesh_tools
 
-- TODO: Right now this visualization works only on devices with OpenCL capable GPUs. With some effort, OpenCL could get an optional dependency in the mesh_tools. I will put this to my queue of future fixes.
+```
+$ ros2 launch rmcl_example rviz.launch map:=tray
+```
 
 The results should look as follows:
 
@@ -29,23 +30,20 @@ The results should look as follows:
 | ![Cylinder World Gazebo](dat/img/cylinder_gazebo.png "Cylinder World Gazebo") | ![Cylinder Map Rviz](dat/img/cylinder_rviz.png "Cylinder Map Rviz") |
 | ![Tray World Gazebo](dat/img/tray_gazebo.png "Tray World Gazebo") | ![Tray Map Rviz](dat/img/tray_rviz.png "Tray Map Rviz") |
 
-Alternatively maps of existing simulations as in [uos_tools](https://github.com/uos/uos_tools) can be used.
+Alternatively, maps of existing simulations as in [uos_tools](https://github.com/uos/uos_tools) can be used.
 
 ## MICP Localization
 
-Change the default arguments in `launch/rmcl_micp.launch` to your needs:
+To start mesh ICP localization, run
 
-```xml
-...
-<arg name="map" default="$(find rmcl_example)/maps/cube.dae" />
-<arg name="config" default="$(find rmcl_example)/config/micp_cpu.yaml"/>
-...
+```
+$ ros2 launch rmcl_example rmcl_micp.launch map:=tray
 ```
 
-and call
+or with a specific config file
 
-```console
-$ roslaunch rmcl_example rmcl_micp.launch
+```
+$ ros2 launch rmcl_example rmcl_micp.launch map:=tray config:=/path/to/config 
 ```
 
 The outputs should look as follows:
@@ -99,7 +97,7 @@ After that you can set a pose in RViz via `2D Pose Estimate` and see the robot l
 
 ![MICP](dat/vid/rmcl_micp_1280.gif)
 
-If visualizations are enabled in the micp config file, the ray casting correspondences (RCC) can be visualized per sensor `X` as marker on the topic `micp_localizations/sensors/X/correspondences`.
+If visualizations are enabled in the micp config file, the ray casting correspondences (RCC) can be visualized per sensor `X` as marker on the topic `micp_localization/sensors/X/correspondences`.
 
 ![Ray casting correspondences (RCC)](dat/img/spc.png "Ray casting correspondences (RCC)")
 
