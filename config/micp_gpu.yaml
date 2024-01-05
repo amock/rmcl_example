@@ -11,7 +11,7 @@ micp_localization:
 
     micp:
       # merging on gpu or cpu
-      combining_unit: cpu
+      combining_unit: gpu
       # maximum number of correction steps per second
       # lower this to decrease the correction speed but save energy 
       corr_rate_max: 100.0
