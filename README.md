@@ -30,23 +30,22 @@ The results should look as follows:
 | ![Cylinder World Gazebo](dat/img/cylinder_gazebo.png "Cylinder World Gazebo") | ![Cylinder Map Rviz](dat/img/cylinder_rviz.png "Cylinder Map Rviz") |
 | ![Tray World Gazebo](dat/img/tray_gazebo.png "Tray World Gazebo") | ![Tray Map Rviz](dat/img/tray_rviz.png "Tray Map Rviz") |
 
-Alternatively, maps of existing simulations as in [uos_tools](https://github.com/uos/uos_tools) can be used.
-
 ## MICP Localization
 
-To start mesh ICP localization, run
+To start MICP-L, run
 
 ```
 $ ros2 launch rmcl_example rmcl_micp.launch map:=tray
 ```
 
-or with a specific config file
+Again, the map has to match the maps that have been used with the simulation and visualization.
+For different settings of MICP-L you can pass a configuration file to the launch file as follows
 
 ```
 $ ros2 launch rmcl_example rmcl_micp.launch map:=tray config:=/path/to/config 
 ```
 
-The outputs should look as follows:
+You can find examples for such configuration files in the `config` folder. After starting MICP-L, the outputs should look as follows:
 
 ```console
 MICP initiailized
