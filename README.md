@@ -15,7 +15,7 @@ The map can be changed by either changing the launch file's default arguments or
 
 After that, try to visualize the triangle mesh map via RViz.
 [rmcl](https://github.com/uos/rmcl) itself does not provide any mesh visualization tools.
-I myself use the RViz plugin of the mesh_tools: https://github.com/naturerobots/mesh_tools
+I myself use the RViz plugin of the mesh_tools: https://github.com/naturerobots/mesh_tools (Branch: humble)
 
 ```
 $ ros2 launch rmcl_example rviz.launch map:=tray
@@ -92,7 +92,7 @@ TF Rate: 50
 Waiting for pose guess...
 ```
 
-After that you can set a pose in RViz via `2D Pose Estimate` and see the robot localizing itself given the range measurements of the Velodyne LiDaR.
+After that you can set a pose in RViz via `2D Pose Estimate` and see the robot localizing itself given the range measurements of the Velodyne LiDaR. Alternatively, you can use the `Mesh Pose Guess` tool of `mesh_tools` to provide a pose guess on the mesh.
 
 ![MICP](dat/vid/rmcl_micp_1280.gif)
 
