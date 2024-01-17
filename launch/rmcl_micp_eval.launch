@@ -2,9 +2,7 @@
 <launch>
 
 <arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray'" />
-<arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml" description="path to config file. You can find examples at rmcl_example/config" />
 <arg name="gui" default="false" description="start preconfigured rviz. you can also use the 'rviz.launch' instead." />
-
 <arg name="generate_evaluation" default="false" description="generates evaluation files for accuracies. Slows down the localization." />
 <arg name="initial_guess" default="[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]" description="initial guess. either x,y,z,r,p,y or x,y,z,qx,qy,qz,qw" />
 
