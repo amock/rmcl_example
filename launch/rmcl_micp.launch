@@ -2,21 +2,21 @@
 <launch>
 
 <arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays'" />
-<arg name="config" default="$(find-pkg-share rmcl_example)/config/micp_cpu.yaml" description="path to config file. You can find examples at rmcl_example/config" />
+<arg name="config" default="$(find-pkg-share rmcl_examples)/config/micp_gpu.yaml" description="path to config file. You can find examples at rmcl_examples/config" />
 <arg name="gui" default="false" description="start preconfigured rviz. you can also use the 'rviz.launch' instead." />
 
-<node pkg="rmcl" exec="micp_localization" name="micp_localization" output="screen">
+<node pkg="rmcl_ros" exec="micp_localization" name="micp_localization" output="screen">
     <param name="use_sim_time" value="true" />
-    <param name="map_file" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
+    <param name="map_file" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
     <param from="$(var config)" />
     <remap from="pose_wc" to="/initialpose" />
 </node>
 
 <group if="$(var gui)">
   <node pkg="rviz2" exec="rviz2" name="rviz2" 
-      args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
+      args="-d $(find-pkg-share rmcl_examples)/rviz/rmcl_micp.rviz">
       <param name="use_sim_time" value="true" />
-      <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
+      <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
   </node>
 </group>
 

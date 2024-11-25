@@ -4,9 +4,9 @@
 <arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray'" />
 
 <node pkg="rviz2" exec="rviz2" name="rviz2" 
-    args="-d $(find-pkg-share rmcl_example)/rviz/rmcl_micp.rviz">
+    args="-d $(find-pkg-share rmcl_examples)/rviz/rmcl_micp.rviz">
     <param name="use_sim_time" value="true" />
-    <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_example)/maps/$(var map).dae" />
+    <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
 </node>
 
 </launch>

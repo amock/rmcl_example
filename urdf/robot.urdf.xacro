@@ -96,7 +96,7 @@
 </joint>
 
 <!-- WHEELS -->
-<xacro:include filename="$(find rmcl_example)/urdf/wheel.urdf.xacro" />
+<xacro:include filename="$(find rmcl_examples)/urdf/wheel.urdf.xacro" />
 
 <xacro:wheel name="left_front_wheel" parent="base_link">
     <origin xyz="${axis_front} ${axis_left} ${axis_height}" rpy="0 0 0"/>

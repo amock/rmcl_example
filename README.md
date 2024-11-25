@@ -1,4 +1,4 @@
-# rmcl_example
+# rmcl_examples
 
 Examples to test the [rmcl](https://github.com/uos/rmcl) ROS package.
 
@@ -8,7 +8,7 @@ In the `maps` folder there are several triangle meshes that can be used as a map
 The robot and each map can be loaded into one simulation by calling
 
 ```console
-$ ros2 launch rmcl_example start_robot_launch.py map:=tray
+$ ros2 launch rmcl_examples start_robot_launch.py map:=tray
 ```
 
 The map can be changed by either changing the launch file's default arguments or via command line.
@@ -18,7 +18,7 @@ After that, try to visualize the triangle mesh map via RViz.
 I myself use the RViz plugin of the mesh_tools: https://github.com/naturerobots/mesh_tools (Branch: humble)
 
 ```
-$ ros2 launch rmcl_example rviz.launch map:=tray
+$ ros2 launch rmcl_examples rviz.launch map:=tray
 ```
 
 The results should look as follows:
@@ -35,14 +35,14 @@ The results should look as follows:
 To start MICP-L, run
 
 ```
-$ ros2 launch rmcl_example rmcl_micp.launch map:=tray
+$ ros2 launch rmcl_examples rmcl_micp.launch map:=tray
 ```
 
 Again, the map has to match the maps that have been used with the simulation and visualization.
 For different settings of MICP-L you can pass a configuration file to the launch file as follows
 
 ```
-$ ros2 launch rmcl_example rmcl_micp.launch map:=tray config:=/path/to/config 
+$ ros2 launch rmcl_examples rmcl_micp.launch map:=tray config:=/path/to/config 
 ```
 
 You can find examples for such configuration files in the `config` folder. After starting MICP-L, the outputs should look as follows:

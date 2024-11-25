@@ -87,7 +87,7 @@ Visualization Manager:
       Value: true
     - Class: rviz_mesh_tools_plugins/Map3D
       Enabled: true
-      Map file path: /home/amock/ros2_ws/install/rmcl_example/share/rmcl_example/maps/cube.dae
+      Map file path: /path/to/mesh/has/to/be/set/in/launch/file
       Mesh:
         Buffer Size: 1
         Class: rviz_mesh_tools_plugins/Mesh
