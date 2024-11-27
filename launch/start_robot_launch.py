@@ -91,6 +91,8 @@ def generate_launch_description():
                    '-topic',
                    'robot_description'],
         output='screen',
+        parameters=[
+                {'use_sim_time': True}]
     )
 
     imu_filter = Node(
