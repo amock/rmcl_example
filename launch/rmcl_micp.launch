@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays'" />
+<arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays', 'avz'" />
 <arg name="config" default="$(find-pkg-share rmcl_examples)/config/micp_cpu.yaml" description="path to config file. You can find examples at rmcl_examples/config" />
 <arg name="gui" default="false" description="start preconfigured rviz. you can also use the 'rviz.launch' instead." />
 

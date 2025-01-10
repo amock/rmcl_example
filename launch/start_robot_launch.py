@@ -20,7 +20,7 @@ def generate_launch_description():
 
     # Launch args
     map_arg = DeclareLaunchArgument('map', default_value=TextSubstitution(text="tray"),
-                          description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays'")
+                          description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays', 'avz'")
 
     map_name = LaunchConfiguration('map')
     prefix = LaunchConfiguration('prefix')
