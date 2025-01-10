@@ -21,7 +21,7 @@ I myself use the RViz plugin of the mesh_tools: https://github.com/naturerobots/
 $ ros2 launch rmcl_examples rviz.launch map:=tray
 ```
 
-The results should look as follows:
+The worlds `cube`, `sphere`, `cylinder`, and `tray` look as follows:
 
 |  Gazebo  |  RViz  |
 |:--------:|:------:|
@@ -30,10 +30,7 @@ The results should look as follows:
 | ![Cylinder World Gazebo](.resources/img/cylinder_gazebo.png "Cylinder World Gazebo") | ![Cylinder Map Rviz](.resources/img/cylinder_rviz.png "Cylinder Map Rviz") |
 | ![Tray World Gazebo](.resources/img/tray_gazebo.png "Tray World Gazebo") | ![Tray Map Rviz](.resources/img/tray_rviz.png "Tray Map Rviz") |
 
-
-### Description
-
-We present a collection of environments designed to benchmark localization algorithms, each posing a unique and challenging problem.
+all environments are designed to benchmark localization algorithms, each posing a unique and challenging problem.
 Most of these environments are intentionally constructed to prevent unique localization solutions.
 Instead, the objective is to achieve the best possible reduction of the belief state informed by the sensor data.
 A localization method is considered to fail if it produces a single definitive solution when multiple locations are equally probable.
