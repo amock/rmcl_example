@@ -27,37 +27,9 @@
       </camera>
     </gui>
 
-    <!-- Ground Plane -->
-    <model name="plane1_model">
-      <static>true</static>
-      <link name="body">
-        <pose>0 0 -0.1 0 0 0</pose>
-        <collision name="geom_1">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-            </plane>
-          </geometry>
-        </collision>
-
-        <visual name="visual_1">
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <material>
-            <script>Gazebo/Grey</script>
-          </material>
-          <cast_shadows>false</cast_shadows>
-        </visual>
-      </link>
-    </model>
-
     <!-- MAP -->
     <include>
-      <uri>model://rmcl_floor</uri>
+      <uri>model://rmcl_corridor</uri>
     </include>
     
   </world>

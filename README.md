@@ -25,10 +25,31 @@ The results should look as follows:
 
 |  Gazebo  |  RViz  |
 |:--------:|:------:|
-| ![Cube World Gazebo](dat/img/cube_gazebo.png "Cube World Gazebo") | ![Cube Map Rviz](dat/img/cube_rviz.png "Cube Map Rviz") |
-| ![Sphere World Gazebo](dat/img/sphere_gazebo.png "Sphere World Gazebo") | ![Sphere Map Rviz](dat/img/sphere_rviz.png "Sphere Map Rviz") |
-| ![Cylinder World Gazebo](dat/img/cylinder_gazebo.png "Cylinder World Gazebo") | ![Cylinder Map Rviz](dat/img/cylinder_rviz.png "Cylinder Map Rviz") |
-| ![Tray World Gazebo](dat/img/tray_gazebo.png "Tray World Gazebo") | ![Tray Map Rviz](dat/img/tray_rviz.png "Tray Map Rviz") |
+| ![Cube World Gazebo](.resources/img/cube_gazebo.png "Cube World Gazebo") | ![Cube Map Rviz](.resources/img/cube_rviz.png "Cube Map Rviz") |
+| ![Sphere World Gazebo](.resources/img/sphere_gazebo.png "Sphere World Gazebo") | ![Sphere Map Rviz](.resources/img/sphere_rviz.png "Sphere Map Rviz") |
+| ![Cylinder World Gazebo](.resources/img/cylinder_gazebo.png "Cylinder World Gazebo") | ![Cylinder Map Rviz](.resources/img/cylinder_rviz.png "Cylinder Map Rviz") |
+| ![Tray World Gazebo](.resources/img/tray_gazebo.png "Tray World Gazebo") | ![Tray Map Rviz](.resources/img/tray_rviz.png "Tray Map Rviz") |
+
+
+### Description
+
+We present a collection of environments designed to benchmark localization algorithms, each posing a unique and challenging problem.
+Most of these environments are intentionally constructed to prevent unique localization solutions.
+Instead, the objective is to achieve the best possible reduction of the belief state informed by the sensor data.
+A localization method is considered to fail if it produces a single definitive solution when multiple locations are equally probable.
+The following table briefly summarize the best possible localization outcome for a robot equipped with motor encoders, an IMU and a 3D LiDAR:
+
+
+|  World Name | Best possible localization |
+|:------------|:-------------------------------------------------------|
+|  `cube`     | 4 modes in your belief state probability distribution  |
+|  `sphere`   | Equal probabilty for every pose located on the surface |
+|  `cylinder` | Circular probability distribution |
+|  `tray`     | Similar to cube but rectengular: 2 most probable modes. Dependent on the system and sensor noise, two more slightly less probable modes could exist. |
+|  `corridor` | State: anywhere in the center of the corridor. Belief state: same probability everywhere in the center of the corridor |
+|  `trays`    | 3x3 grid of `tray` model. Same most probable modes as for the `tray` environment but symmetrically distributed over a 3x3 grid. |
+|  `avz`      | Old office floor of Osnabrück University in the AVZ building. Real world sample, still many ambiguities such as same sized rooms. |
+
 
 ## MICP Localization
 
@@ -94,9 +115,9 @@ Waiting for pose guess...
 
 After that you can set a pose in RViz via `2D Pose Estimate` and see the robot localizing itself given the range measurements of the Velodyne LiDaR. Alternatively, you can use the `Mesh Pose Guess` tool of `mesh_tools` to provide a pose guess on the mesh.
 
-![MICP](dat/vid/rmcl_micp_1280.gif)
+![MICP](.resources/vid/rmcl_micp_1280.gif)
 
 If visualizations are enabled in the micp config file, the ray casting correspondences (RCC) can be visualized per sensor `X` as marker on the topic `micp_localization/sensors/X/correspondences`.
 
-![Ray casting correspondences (RCC)](dat/img/spc.png "Ray casting correspondences (RCC)")
+![Ray casting correspondences (RCC)](.resources/img/spc.png "Ray casting correspondences (RCC)")
 

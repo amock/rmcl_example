@@ -16,7 +16,7 @@ from text_formatting import TextFormatting
 
 
 def generate_launch_description():
-    config_dir = os.path.join(get_package_share_directory('rmcl_examples'), 'config')
+    config_dir = os.path.join(get_package_share_directory('rmcl_sim'), 'config')
 
     # Launch args
     map_arg = DeclareLaunchArgument('map', default_value=TextSubstitution(text="tray"),
@@ -46,7 +46,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution(
-                [FindPackageShare("rmcl_examples"), "urdf", "robot.urdf.xacro"]
+                [FindPackageShare("rmcl_sim"), "urdf", "robot.urdf.xacro"]
             ),
             " ",
             "name:=robot",
@@ -75,7 +75,7 @@ def generate_launch_description():
                 os.path.join(get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')
             ),
             launch_arguments={
-                'world': PathJoinSubstitution([get_package_share_directory('rmcl_examples'), 'worlds', map_world]),
+                'world': PathJoinSubstitution([get_package_share_directory('rmcl_sim'), 'worlds', map_world]),
                 'verbose': 'true',
                 'params_file': os.path.join(config_dir, 'gazebo.yaml')
             }.items()
