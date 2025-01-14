@@ -8,7 +8,7 @@ In the `maps` folder there are several triangle meshes that can be used as a map
 The robot and each map can be loaded into one simulation by calling
 
 ```console
-$ ros2 launch rmcl_examples start_robot_launch.py map:=tray
+$ ros2 launch rmcl_sim start_robot_launch.py map:=tray
 ```
 
 The map can be changed by either changing the launch file's default arguments or via command line.
