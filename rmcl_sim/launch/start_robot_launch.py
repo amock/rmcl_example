@@ -1,14 +1,19 @@
 from launch import LaunchDescription
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python.packages import get_package_share_directory, get_package_prefix
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler,IncludeLaunchDescription
 from launch.event_handlers import OnProcessExit, OnExecutionComplete
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution, TextSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from scripts import GazeboRosPaths
+
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
 import sys
+
+# Dynamic imports
+dir_path = os.path.realpath(os.path.join(get_package_prefix('gazebo_ros'), 'lib', 'gazebo_ros'))
+sys.path.append(dir_path)
+from gazebo_ros_paths import GazeboRosPaths
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
