@@ -34,7 +34,7 @@ micp_localization:
     sensors: # list of range sensors - at least one is required
       velodyne:
         topic: velodyne/points
-        # topic_type: sensor_msgs/msg/PointCloud2
+        topic_type: sensor_msgs/msg/PointCloud2
         # type: o1dn
         # model:
         #   range_min: 0.5

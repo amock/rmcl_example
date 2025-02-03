@@ -10,15 +10,15 @@ ekf_filter_node:
 
         debug: false
 
-        map_frame: map              # Defaults to "map" if unspecified
+        map_frame: map_rl              # Defaults to "map" if unspecified, Alex: ekf shall not know my map frame
         odom_frame: odom            # Defaults to "odom" if unspecified
         base_link_frame: base_footprint  # Defaults to "base_link" if unspecified
         world_frame: odom           # Defaults to the value of odom_frame if unspecified
 
         odom0: /odom
         odom0_queue_size: 10
-        odom0_config: [true, true, false, #xyz
-                       false, false, true, # rpy
+        odom0_config: [false, false, false, #xyz
+                       false, false, false, # rpy
                        true, false, false, #vxyz
                        false, false, true, #vrpy
                        false, false, false] #axyz 
@@ -29,10 +29,10 @@ ekf_filter_node:
         imu0: /imu/data
         imu0_queue_size: 10
         imu0_config: [false,  false,  false, #xyz
-                       true, true, true, # rpy
+                       false, false, false, # rpy
                        false, false, false, #vxyz
-                       false, false, false, #vrpy
-                       true, true, true] #axyz 
+                       true, true, true, #vrpy
+                       false, false, false] #axyz 
         imu0_differential: false
         
 
