@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="wheel">
     <xacro:macro name="wheel" params="name parent *joint_pose">
         <link name="${name}_link">
+
             <visual>
                 <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
                 <geometry>
@@ -27,8 +28,6 @@
         <gazebo reference="${name}_link">
             <mu1 value="1.0"/>
             <mu2 value="1.0"/>
-            <kp value="10000000.0" />
-            <kd value="1.0" />
             <fdir1 value="1 0 0"/>
             <material>Gazebo/DarkGrey</material>
         </gazebo>
@@ -40,15 +39,5 @@
             <axis xyz="0 1 0" rpy="0 0 0" />
         </joint>
 
-        <transmission name="${name}_trans" type="SimpleTransmission">
-            <type>transmission_interface/SimpleTransmission</type>
-            <actuator name="${name}_motor">
-                <mechanicalReduction>7</mechanicalReduction>
-                <hardwareInterface>VelocityJointInterface</hardwareInterface>
-            </actuator>
-            <joint name="${name}">
-                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            </joint>
-        </transmission>
     </xacro:macro>
 </robot>

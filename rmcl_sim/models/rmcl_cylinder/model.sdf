@@ -7,7 +7,7 @@
       <geometry>
         <mesh>
           <scale>1 1 1</scale>
-          <uri>model://rmcl_cylinder/meshes/cylinder.dae</uri>
+          <uri>cylinder.dae</uri>
         </mesh>
       </geometry>
     </collision>
@@ -15,7 +15,7 @@
       <geometry>
         <mesh>
           <scale>1 1 1</scale>
-          <uri>model://rmcl_cylinder/meshes/cylinder.dae</uri>
+          <uri>meshes/cylinder.dae</uri>
         </mesh>
       </geometry>
     </visual>

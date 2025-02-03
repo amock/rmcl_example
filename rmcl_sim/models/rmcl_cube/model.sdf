@@ -7,7 +7,7 @@
       <geometry>
         <mesh>
           <scale>1 1 1</scale>
-          <uri>model://rmcl_cube/meshes/cube.dae</uri>
+          <uri>meshes/cube.dae</uri>
         </mesh>
       </geometry>
     </collision>
@@ -15,7 +15,7 @@
       <geometry>
         <mesh>
           <scale>1 1 1</scale>
-          <uri>model://rmcl_cube/meshes/cube.dae</uri>
+          <uri>meshes/cube.dae</uri>
         </mesh>
       </geometry>
     </visual>
