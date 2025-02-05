@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="map" default="tray" description="map name. Choose between 'cube', 'cylinder', 'floor', 'sphere', 'tray', 'trays', 'avz'" />
+  <arg name="config" default="$(find-pkg-share rmcl_examples)/config/ex02_loc_and_seg/rmcl_loc_and_seg.yaml" description="path to config file. You can find examples at rmcl_examples/config" />
+  <arg name="gui" default="false" description="start preconfigured rviz. you can also use the 'rviz.launch' instead." />
+
+  <node pkg="rmcl_ros" exec="conv_pcl2_to_o1dn_node" name="rmcl_pcl_conversion" output="screen">
+    <param from="$(var config)" />
+    <remap from="cloud" to="/velodyne/points"/>
+    <remap from="rmcl_scan" to="~/rmcl_scan"/>
+  </node>
+
+  <node pkg="rmcl_ros" exec="o1dn_map_segmentation_embree_node" name="rmcl_map_segmentation" output="screen">
+    <param from="$(var config)" />
+    <param name="map_file" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
+    <remap from="scan" to="rmcl_pcl_conversion/rmcl_scan"/>
+  </node>
+
+  <node pkg="rmcl_ros" exec="micp_localization" name="micp_localization" output="screen">
+    <param from="$(var config)" />
+    <param name="map_file" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
+    <remap from="pose_wc" to="/initialpose" />
+  </node>
+
+  <group if="$(var gui)">
+    <node pkg="rviz2" exec="rviz2" name="rviz2" 
+        args="-d $(find-pkg-share rmcl_examples)/rviz/ex02_loc_and_seg.rviz">
+        <param name="use_sim_time" value="true" />
+        <param name="rviz_mesh_tools_plugins.Map3D" value="$(find-pkg-share rmcl_examples)/maps/$(var map).dae" />
+    </node>
+  </group>
+
+</launch>

@@ -1,0 +1,55 @@
+rmcl_pcl_conversion:
+  ros__parameters:
+    use_sim_time: True
+    debug_cloud: False
+    model:
+      range_min: 0.3
+      range_max: 130.0
+
+rmcl_map_segmentation:
+  ros__parameters:
+    use_sim_time: True
+
+micp_localization:
+  ros__parameters:
+    use_sim_time: True
+
+    # required
+    base_frame: base_footprint
+    map_frame: map
+    odom_frame: odom
+
+    # rate of broadcasting tf transformations
+    tf_rate: 50.0
+
+    micp:
+      # merging on gpu or cpu
+      combining_unit: cpu
+      # maximum number of correction steps per second
+      # lower this to decrease the correction speed but save energy 
+      corr_rate_max: 5.0
+      
+      # adjust max distance dependend of the state of localization
+      adaptive_max_dist: True # enable adaptive max dist
+
+      # DEBUGGING   
+      # corr = correspondences
+      viz_corr: True
+      # corr = correction
+      print_corr_rate: False
+      disable_corr: False
+
+      # initial pose changes
+      trans: [0.0, 0.0, 0.0]
+      rot: [0.0, 0.0, 0.0] # euler angles (3) or quaternion (4) 
+
+    # describe your sensor setup here
+    sensors: # list of range sensors - at least one is required
+      velodyne:
+        topic: rmcl_pcl_conversion/rmcl_scan
+        topic_type: rmcl_msgs/msg/O1DnStamped
+        type: o1dn
+        micp:
+          max_dist: 2.0
+          adaptive_max_dist_min: 0.15
+          backend: embree 
