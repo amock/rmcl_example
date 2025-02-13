@@ -1,0 +1,7 @@
+rmcl_pcl_conversion:
+  ros__parameters:
+    use_sim_time: True
+    debug_cloud: True
+    model:
+      range_min: 0.3
+      range_max: 130.0

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="config" default="$(find-pkg-share rmcl_examples)/config/ex01_convert/rmcl_conv_pcl2_to_scan.yaml" description="path to config file. You can find examples at rmcl_examples/config" />
+  <arg name="gui" default="false" description="start preconfigured rviz. you can also use the 'rviz.launch' instead." />
+
+  <node pkg="rmcl_ros" exec="conv_pcl2_to_scan_node" name="rmcl_pcl_conversion" output="screen">
+    <param from="$(var config)" />
+    <remap from="cloud" to="/velodyne/points"/>
+    <remap from="rmcl_scan" to="~/rmcl_scan"/>
+  </node>
+
+  <group if="$(var gui)">
+    <node pkg="rviz2" exec="rviz2" name="rviz2"
+        args="-d $(find-pkg-share rmcl_examples)/rviz/ex01_convert.rviz">
+        <param name="use_sim_time" value="true" />
+    </node>
+  </group>
+
+</launch>
